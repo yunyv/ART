@@ -133,7 +133,11 @@ def group_aggregate(
                     (B, num_groups, P), fill_val, device=device, dtype=dtype
                 )
                 agg = torch.scatter_reduce(
-                    agg, 1, mapped_ids_exp, values_flat, reduce=reduce
+                    agg,
+                    1,
+                    mapped_ids_exp,
+                    values_flat,
+                    reduce="amin" if reduce == "min" else "amax",
                 )
             else:
                 raise ValueError(f"Unsupported reduce type: {reduce}")
